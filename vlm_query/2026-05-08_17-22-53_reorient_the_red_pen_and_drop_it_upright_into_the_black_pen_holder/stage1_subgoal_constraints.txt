@@ -1,0 +1,7 @@
+def stage1_subgoal_constraint1(end_effector, keypoints):
+    """Align the end-effector with the red pen's grip point (keypoint index 0) to grasp it."""
+    # Calculate distance between end-effector and the red pen's grip point (keypoint 0)
+    distance = np.linalg.norm(end_effector - keypoints[0])
+    # Cost is negative if end-effector is close to the keypoint (within 0.05 units)
+    return -distance + 0.05
+

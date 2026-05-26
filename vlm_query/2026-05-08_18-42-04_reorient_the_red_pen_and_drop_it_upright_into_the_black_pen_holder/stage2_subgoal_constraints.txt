@@ -1,0 +1,7 @@
+def stage2_subgoal_constraint1(end_effector, keypoints):
+    """Ensure the red pen is upright (parallel to the z-axis)."""
+    pen_vector = keypoints[2] - keypoints[3]  # Vector from the tip to the base of the pen.
+    z_axis = np.array([0, 0, 1])  # Reference z-axis.
+    cost = np.abs(np.dot(pen_vector / np.linalg.norm(pen_vector), z_axis) - 1)  # Cosine similarity to z-axis.
+    return cost
+

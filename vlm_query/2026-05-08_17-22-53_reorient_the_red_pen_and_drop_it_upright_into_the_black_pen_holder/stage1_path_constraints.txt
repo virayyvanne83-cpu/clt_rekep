@@ -1,0 +1,4 @@
+def stage1_path_constraint1(end_effector, keypoints):
+    """Ensure the robot is still grasping the red pen's grip point (keypoint 0) during the grasp stage."""
+    return get_grasping_cost_by_keypoint_idx(0)
+

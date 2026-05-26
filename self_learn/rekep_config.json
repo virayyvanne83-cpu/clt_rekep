@@ -1,0 +1,55 @@
+{
+    "scene": {
+        "name": "Rs_int",
+        "type": "InteractiveTraversableScene",
+        "scene_model": "Rs_int",
+        "scene_file": "./configs/og_scene_file_red_pen.json"
+    },
+    "robots": [
+        {
+            "name": "Fetch",
+            "type": "Fetch",
+            "obs_modalities": [
+                "rgb",
+                "depth"
+            ],
+            "action_modalities": "continuous",
+            "action_normalize": false,
+            "position": [
+                -0.8,
+                0.0,
+                0.0
+            ],
+            "grasping_mode": "assisted",
+            "controller_config": {
+                "base": {
+                    "name": "DifferentialDriveController"
+                },
+                "arm_0": {
+                    "name": "OperationalSpaceController",
+                    "kp": 250,
+                    "kp_limits": [
+                        50,
+                        400
+                    ],
+                    "damping_ratio": 0.6
+                },
+                "gripper_0": {
+                    "name": "MultiFingerGripperController",
+                    "command_input_limits": [
+                        0.0,
+                        1.0
+                    ],
+                    "mode": "smooth"
+                },
+                "camera": {
+                    "name": "JointController"
+                }
+            }
+        }
+    ],
+    "env": {
+        "physics_frequency": 60,
+        "action_frequency": 15
+    }
+}

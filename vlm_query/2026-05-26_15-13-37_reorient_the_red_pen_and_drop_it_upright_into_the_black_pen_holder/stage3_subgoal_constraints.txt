@@ -1,0 +1,13 @@
+def stage3_subgoal_constraint1(end_effector, keypoints):
+    """Ensure the red pen (keypoint 3) is upright (parallel to the z-axis)."""
+    pen_vector = keypoints[3] - keypoints[2]  # Vector along the red pen
+    z_axis = np.array([0, 0, 1])  # Unit vector along the z-axis
+    cost = 1 - np.dot(pen_vector / np.linalg.norm(pen_vector), z_axis)
+    return cost
+
+def stage3_subgoal_constraint2(end_effector, keypoints):
+    """Ensure the red pen (keypoint 3) is positioned 5cm above the black pen holder opening (keypoint 7)."""
+    offsetted_point = keypoints[7] + np.array([0, 0, 0.05])  # 5cm above keypoint 7
+    cost = np.linalg.norm(keypoints[3] - offsetted_point)
+    return cost
+

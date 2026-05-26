@@ -1,0 +1,34 @@
+```python
+# The task "reorient the red pen and drop it upright into the black pen holder" involves three distinct stages:
+# 1. Grasp the red pen — the robot must acquire the red pen using its end-effector.
+# 2. Reorient the red pen — the robot must rotate the pen to make it upright (aligned with the z-axis).
+# 3. Drop the red pen upright into the black pen holder — the robot must release the pen at the correct position and orientation above the holder.
+#
+# Grasping is an independent stage. The reorientation stage requires maintaining grasp while rotating the object. The final stage requires maintaining grasp until the pen is positioned correctly above the holder, then releasing it.
+
+num_stages = 3
+
+### stage 1 sub-goal constraints (grasp the red pen)
+def stage1_subgoal_constraint1(end_effector, keypoints):
+    """Align the end-effector with the red pen's grip point (keypoint index 0) to grasp it."""
+    # Calculate distance between end-effector and the red pen's grip point (keypoint 0)
+    distance = np.linalg.norm(end_effector - keypoints[0])
+    # Cost is negative if end-effector is close to the keypoint (within 0.05 units)
+    return -distance + 0.05
+
+### stage 1 path constraints (grasp the red pen)
+def stage1_path_constraint1(end_effector, keypoints):
+    """Ensure the robot is still grasping the red pen's grip point (keypoint 0) during the grasp stage."""
+    return get_grasping_cost_by_keypoint_idx(0)
+
+### stage 2 sub-goal constraints (reorient the red pen)
+def stage2_subgoal_constraint1(end_effector, keypoints):
+    """Ensure the red pen is upright (aligned with the z-axis) by checking the orientation of its axis (keypoints 0 and 1)."""
+    # Vector from keypoint 0 to keypoint 1 represents the pen's axis
+    pen_axis = keypoints[1] - keypoints[0]
+    # Normalize the pen axis
+    pen_axis_norm = pen_axis / np.linalg.norm(pen_axis)
+    # Check alignment with z-axis (0,0,1)
+    z_axis = np.array([0, 0, 1])
+    # Cosine of angle between pen axis and z-axis
+    cos_angle = np.dot(pen_axis_norm, z_axis
